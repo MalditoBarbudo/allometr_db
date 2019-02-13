@@ -1,0 +1,46 @@
+# New allometries database version script
+# 
+# This is needed because the db must be improved to better implementation of all
+# the data.
+
+## Libraries and data access ####
+library(tidyverse)
+library(dbplyr)
+library(RPostgreSQL)
+library(pool)
+library(magrittr)
+library(stringr)
+library(glue)
+# library(tidyIFN)
+
+## database connections ####
+# original db connections
+oracle_db <- dbPool(
+  RPostgreSQL::PostgreSQL(),
+  user = 'ifn',
+  password = rstudioapi::askForPassword('Password for ifn'),
+  dbname = 'oracle_ifn'
+)
+
+# access4_db <- dbPool(
+#   RPostgreSQL::PostgreSQL(),
+#   user = 'ifn',
+#   password = rstudioapi::askForPassword('Password for ifn'),
+#   dbname = 'ifn4_access'
+# )
+
+# new db connection
+allometr_db <- dbPool(
+  RPostgreSQL::PostgreSQL(),
+  user = 'ifn',
+  password = rstudioapi::askForPassword('Password for ifn'),
+  dbname = 'allometr_db'
+)
+
+## scripts sources ####
+source('01_creaf_allometries.R')
+
+## closing pools ####
+poolClose(oracle_db)
+# poolClose(access4_db)
+poolClose(allometr_db)
