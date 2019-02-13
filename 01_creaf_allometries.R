@@ -19,6 +19,7 @@ tbl(oracle_db, 'equacio') %>%
     n_obs = n,
     r_sqr = r2
   ) %>%
+  collect() %>%
   mutate(
     spatial_level = case_when(
       spatial_name == 'Catalunya' ~ 'aut_community',
@@ -26,13 +27,16 @@ tbl(oracle_db, 'equacio') %>%
       TRUE ~ 'county'
     ),
     functional_group_level = 'species'
+    # functional_group_level = case_when(
+    #   length(str_split(functional_group_name, ' ') > 2) ~ 'species',
+    #   TRUE ~ 'genus'
+    # )
   ) %>%
   select(
     spatial_level, spatial_name,
     functional_group_level, functional_group_name,
     everything()
   ) %>%
-  collect() %>%
   separate(variables, c('var1', 'var2', 'var3'), sep = ' - ') %>%
   mutate(
     # create the vars variables
@@ -76,14 +80,16 @@ tbl(oracle_db, 'equacio') %>%
     # Dc in the equations appears as DP, fix it
     equation = str_replace_all(equation, 'DP =', 'DC ='),
     # Dc and DC uniformization
-    dependent_var = if_else(dependent_var == 'Dc', 'DC', dependent_var)
+    dependent_var = if_else(dependent_var == 'Dc', 'DC', dependent_var),
+    # cubication shapes totes to any
+    cubication_shape = if_else(cubication_shape == 'Totes', 'Any', cubication_shape)
   ) %>%
   # pull(equation)
   select(
     spatial_level, spatial_name, functional_group_level, functional_group_name,
     dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
-    everything(), -var1, -var2, -var3
-  ) -> temp_allometries
+    everything(), -var1, -var2, -var3, -contains('_description_')
+  ) -> temp_allometries_creaf
 
 ## thesaurus variables ####
 # lets create a thesuarus of variable names
@@ -176,6 +182,6 @@ temp_allometries %>% gather('variable', 'var_id', contains('_var')) %>%
       str_remove_all('[(|)]')
   ) -> thesaurus_variables_creaf
   
-
+## TODO thesaurus of origins
 
 
