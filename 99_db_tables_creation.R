@@ -8,3 +8,8 @@ thesaurus_variables_creaf %>%
   copy_to(
     allometr_db, df = ., name = 'THESAURUS_VARIABLES', overwrite = TRUE, temporary = FALSE
   )
+
+thesaurus_cubication_shape %>%
+  copy_to(
+    allometr_db, df = ., name = 'THESAURUS_CUBICATION', overwrite = TRUE, temporary = FALSE
+  )
