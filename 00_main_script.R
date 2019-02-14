@@ -40,6 +40,9 @@ allometr_db <- dbPool(
 ## scripts sources ####
 source('01_creaf_allometries.R')
 
+source('98_thesauruses.R')
+source('99_db_tables_creation.R')
+
 ## closing pools ####
 poolClose(oracle_db)
 # poolClose(access4_db)
