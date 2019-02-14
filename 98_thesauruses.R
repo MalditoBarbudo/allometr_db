@@ -94,7 +94,19 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
     var_abbr_cat = var_id,
     var_abbr_spa = var_id,
     var_abbr_eng = str_extract(translation_eng, '\\([a-z|A-Z]+\\)') %>%
-      str_remove_all('[(|)]')
+      str_remove_all('[(|)]'),
+    var_dependent = if_else(
+      var_id %in% {temp_allometries_creaf %>% pull(dependent_var) %>% unique}, TRUE, FALSE
+    ),
+    var_independent = if_else(
+      var_id %in% {
+        c(
+          temp_allometries_creaf %>% pull(independent_var_1) %>% unique,
+          temp_allometries_creaf %>% pull(independent_var_2) %>% unique,
+          temp_allometries_creaf %>% pull(independent_var_3) %>% unique
+        )
+      }, TRUE, FALSE
+    )
   ) -> thesaurus_variables_creaf
 
 ## thesaurus cubication shapes ####
@@ -116,7 +128,7 @@ tbl(oracle_db, 'tesaureformacubicacio') %>%
     )
   ) -> thesaurus_cubication_shape
 
-## sources thesaurus
+## sources thesaurus ####
 temp_allometries_creaf %>%
   select(source_id = source) %>%
   distinct() %>%
