@@ -90,4 +90,107 @@ tbl(oracle_db, 'equacio') %>%
     spatial_level, spatial_name, functional_group_level, functional_group_name,
     dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
     everything(), -var1, -var2, -var3, -contains('_description_')
-  ) -> temp_allometries_creaf
+  ) -> temp_allometries_catalonia
+
+## temporal creaf spain level allometries ####
+tbl(oracle_db, 'equacio_espanya') %>%
+  rename(
+    spatial_name = ambit,
+    functional_group_name = idespecie,
+    cubication_shape = formacubicacio,
+    variables = variables,
+    source = origen,
+    special_param = parametreespecial,
+    equation = equacio,
+    param_a = a,
+    param_b = b,
+    param_c = c,
+    param_d = d,
+    n_obs = n,
+    r_sqr = r2,
+    see = see
+  ) %>%
+  collect() %>%
+  left_join(
+    tbl(oracle_db, 'tesaureprovincia') %>% select(spatial_name = idprovincia, nom) %>% collect(),
+    by = 'spatial_name'
+  ) %>%
+  left_join(
+    tbl(oracle_db, 'tesaureespecie_espanya') %>% select(functional_group_name = idespecie, especie) %>% collect(),
+    by = 'functional_group_name'
+  ) %>%
+  mutate(
+    spatial_level = case_when(
+      spatial_name == 'Catalunya' ~ 'aut_community',
+      spatial_name == 'Espanya' ~ 'country',
+      TRUE ~ 'province'
+    ),
+    spatial_name = case_when(
+      spatial_name == 'Catalunya' ~ 'Catalunya',
+      spatial_name == 'Espanya' ~ 'España',
+      TRUE ~ nom
+    ),
+    functional_group_name = especie,
+    functional_group_level = 'species'
+    ## TODO revisar el grupo funcional, no todas son especies
+    # functional_group_level = case_when(
+    #   length(str_split(functional_group_name, ' ') > 2) ~ 'species',
+    #   TRUE ~ 'genus'
+    # )
+  ) %>%
+  select(-nom, -especie) %>%
+  separate(variables, c('var1', 'var2', 'var3'), sep = '( - )|( i )|(- )') %>%
+  mutate(
+    # create the vars variables
+    dependent_var = if_else(is.na(var3), var2, var3),
+    independent_var_1 = var1,
+    independent_var_2 = if_else(is.na(var3), NA_character_, var2),
+    independent_var_3 = NA_character_,
+    # In the case of P_BST, the order is inverted as the first one is de dependent, we
+    # must take care of it
+    dependent_var = if_else(str_detect(dependent_var, '^BAT = '), var1, dependent_var),
+    independent_var_1 = if_else(str_detect(independent_var_1, '^P_BST='), var2, independent_var_1)
+  ) %>%
+  separate(
+    # now we must retain the abbreviation and create a column for the name_cat
+    dependent_var, c('dependent_var', 'dv_description_cat'), sep = '='
+  ) %>%
+  mutate(
+    dependent_var = str_trim(dependent_var),
+    dv_description_cat = str_trim(dv_description_cat),
+  ) %>%
+  # the same for the independent variables
+  separate(
+    independent_var_1, c('independent_var_1', 'iv1_description_cat'), sep = '='
+  ) %>%
+  separate(
+    independent_var_2, c('independent_var_2', 'iv2_description_cat'), sep = '='
+  ) %>%
+  separate(
+    independent_var_3, c('independent_var_3', 'iv3_description_cat'), sep = '='
+  ) %>%
+  mutate(
+    # removing trailing spaces
+    independent_var_1 = str_trim(independent_var_1),
+    iv1_description_cat = str_trim(iv1_description_cat),
+    independent_var_2 = str_trim(independent_var_2),
+    iv2_description_cat = str_trim(iv2_description_cat),
+    independent_var_3 = str_trim(independent_var_3),
+    iv3_description_cat = str_trim(iv3_description_cat),
+    # uniformization of the equations
+    equation = str_replace_all(equation, ' · ', '·'),
+    equation = str_replace_all(equation, ' \\^ ', '\\^'),
+    # cubication shapes totes to any
+    cubication_shape = if_else(cubication_shape == 'Totes', 'Any', cubication_shape)
+  ) %>%
+  # pull(equation)
+  select(
+    spatial_level, spatial_name, functional_group_level, functional_group_name,
+    dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
+    everything(), -var1, -var2, -var3, -contains('_description_'), -concentraciocarboni,
+    -util
+  ) -> temp_allometries_spain
+
+temp_allometries_catalonia %>%
+  mutate(see = NA_integer_) %>%
+  union(temp_allometries_spain) -> temp_allometries_creaf

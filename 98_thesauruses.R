@@ -21,7 +21,9 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'VM' ~ glue::glue("Volum de fusta ({var_id})"),
       var_id == 'DR' ~ glue::glue("Diàmetre de la branca ({var_id})"),
       var_id == 'Dn' ~ glue::glue("Diàmetre normal ({var_id})"),
-      var_id == 'Dn*' ~ glue::glue("Diàmetre normal sense escorça ({var_id})")
+      var_id == 'Dn*' ~ glue::glue("Diàmetre normal sense escorça ({var_id})"),
+      var_id == 'P_BST' ~ glue::glue("Percentatge de biomassa Subterrània Total ({var_id})"),
+      var_id == 'BST' ~ glue::glue("Biomassa Subterrània Total ({var_id})")
     ),
     translation_eng = case_when(
       var_id == 'BRH' ~ 'Branches and leaves Biomass (BLB)',
@@ -41,7 +43,9 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'VM' ~ 'Wood Volume (WV)',
       var_id == 'DR' ~ 'Branch Diameter (BD)',
       var_id == 'Dn' ~ 'Diameter at Breast Height (DBH)',
-      var_id == 'Dn*' ~ 'Diameter Inside Bark (DIB)'
+      var_id == 'Dn*' ~ 'Diameter Inside Bark (DIB)',
+      var_id == 'P_BST' ~ "Total Subterranean Biomass percentage (TSBp)",
+      var_id == 'BST' ~ "Total Subterranean Biomass (TSB)"
     ),
     translation_spa = case_when(
       var_id == 'BRH' ~ glue::glue("Biomasa de ramas con hojas ({var_id})"),
@@ -61,7 +65,9 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'VM' ~ glue::glue("Volumen de madera ({var_id})"),
       var_id == 'DR' ~ glue::glue("Diámetro de rama ({var_id})"),
       var_id == 'Dn' ~ glue::glue("Diámetro normal ({var_id})"),
-      var_id == 'Dn*' ~ glue::glue("Diámetro sin corteza ({var_id})")
+      var_id == 'Dn*' ~ glue::glue("Diámetro sin corteza ({var_id})"),
+      var_id == 'P_BST' ~ glue::glue("Porcentaje de biomasa subterránea total ({var_id})"),
+      var_id == 'BST' ~ glue::glue("Biomasa subterránea total ({var_id})")
     ),
     var_units = case_when(
       var_id == 'BRH' ~ 'g',
@@ -81,7 +87,9 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'VM' ~ 'dm3',
       var_id == 'DR' ~ 'mm',
       var_id == 'Dn' ~ 'cm',
-      var_id == 'Dn*' ~ 'cm'
+      var_id == 'Dn*' ~ 'cm',
+      var_id == 'P_BST' ~ '%',
+      var_id == 'BST' ~ 'kg'
     ),
     var_abbr_cat = var_id,
     var_abbr_spa = var_id,
@@ -113,21 +121,22 @@ temp_allometries_creaf %>%
   select(source_id = source) %>%
   distinct() %>%
   mutate(
-    translation_eng = c(
-      'Catalonian Ecological and Forest Inventory',
-      'Spanish National Forest Inventory version 2',
-      'Spanish National Forest Inventory version 3'
+    translation_eng = case_when(
+      source_id == 'IFN3' ~ 'Spanish National Forest Inventory version 3',
+      source_id == 'IFN2' ~ 'Spanish National Forest Inventory version 2',
+      source_id == 'IEFC' ~ 'Catalonian Ecological and Forest Inventory',
+      source_id == 'INIA' ~ 'Spanish Agricultural Research National Institute'
     ),
-    translation_spa = c(
-      'Inventario Ecológico y Forestal de Cataluña',
-      'Inventario Forestal Nacional 2',
-      'Inventario Forestal Nacional 3'
+    translation_spa = case_when(
+      source_id == 'IFN3' ~ 'Inventario Forestal Nacional 3',
+      source_id == 'IFN2' ~ 'Inventario Forestal Nacional 2',
+      source_id == 'IEFC' ~ 'Inventario Ecológico y Forestal de Cataluña',
+      source_id == 'INIA' ~ 'Instituto Nacional de Investigaciones Agrarias'
     ),
-    translation_cat = c(
-      'Inventari Ecológico y Forestal de Catalunya',
-      'Inventari Forestal Nacional 2',
-      'Inventari Forestal Nacional 3'
+    translation_cat = case_when(
+      source_id == 'IFN3' ~ 'Inventari Forestal Nacional 3',
+      source_id == 'IFN2' ~ 'Inventari Forestal Nacional 2',
+      source_id == 'IEFC' ~ 'Inventari Ecológico y Forestal de Catalunya',
+      source_id == 'INIA' ~ 'Institut Nacional de Recerca Agraria'
     )
   ) -> theasurus_sources
-
-## TODO thesaurus of origins
