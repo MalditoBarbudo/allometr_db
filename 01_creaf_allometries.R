@@ -120,23 +120,20 @@ tbl(oracle_db, 'equacio_espanya') %>%
     by = 'functional_group_name'
   ) %>%
   mutate(
-    spatial_level = case_when(
-      spatial_name == 'Catalunya' ~ 'aut_community',
-      spatial_name == 'Espanya' ~ 'country',
-      TRUE ~ 'province'
-    ),
     spatial_name = case_when(
       spatial_name == 'Catalunya' ~ 'Catalunya',
       spatial_name == 'Espanya' ~ 'España',
       TRUE ~ nom
     ),
+    spatial_level = case_when(
+      spatial_name == 'España' ~ 'country',
+      spatial_name %in% c(
+        'Asturias', 'Cantabria', 'Catalunya', 'La Rioja', 'Madrid', 'Navarra', 'Murcia'
+      ) ~ 'aut_community',
+      TRUE ~ 'province'
+    ),
     functional_group_name = especie,
     functional_group_level = 'species'
-    ## TODO revisar el grupo funcional, no todas son especies
-    # functional_group_level = case_when(
-    #   length(str_split(functional_group_name, ' ') > 2) ~ 'species',
-    #   TRUE ~ 'genus'
-    # )
   ) %>%
   select(-nom, -especie) %>%
   separate(variables, c('var1', 'var2', 'var3'), sep = '( - )|( i )|(- )') %>%
@@ -193,4 +190,39 @@ tbl(oracle_db, 'equacio_espanya') %>%
 
 temp_allometries_catalonia %>%
   mutate(see = NA_integer_) %>%
-  union(temp_allometries_spain) -> temp_allometries_creaf
+  union(temp_allometries_spain) %>%
+  # fixing vars
+  mutate(
+    # fixing species
+    # for that, some assumtions are made:
+    # 1. length of fg name = 1, then genus (there is no families I'm aware of)
+    # 2. Especial groups: Conifers wo pines, Riparian species, other ripioles species...
+    fg_name_length = length(str_split(functional_group_name, ' ')),
+    functional_group_level = case_when(
+      fg_name_length == 1 ~ 'genus',
+      functional_group_name == 'Abies sp' ~ 'genus',
+      functional_group_name %in% c(
+        "Altres espècies ripícoles", "Coníferes excepte pins",
+        "Arbres de ribera"
+      ) ~ 'species_grouping',
+      str_detect(functional_group_name, 'Altres ') ~ 'species_group',
+      TRUE ~ functional_group_level
+    ),
+    # adding the allometry level (forest, tree, organ...)
+    allometry_level = if_else(independent_var_1 == 'DR', 'organ', 'tree'),
+    allometry_name = if_else(allometry_level == 'tree', 'tree', 'branch')
+  ) %>%
+  # selecting/reordering the variables
+  select(
+    # levels
+    allometry_level, spatial_level, functional_group_level,
+    # names
+    allometry_name, spatial_name, functional_group_name,
+    # vars
+    dependent_var, independent_var_1, independent_var_2, independent_var_3,
+    # equation and params
+    equation, param_a, param_b, param_c, param_d,
+    special_param, cubication_shape, source,
+    # quality
+    n_obs, r_sqr, see
+  ) -> temp_allometries_creaf
