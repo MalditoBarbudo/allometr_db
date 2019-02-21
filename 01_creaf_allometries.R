@@ -204,7 +204,7 @@ temp_allometries_catalonia %>%
       functional_group_name %in% c(
         "Altres espècies ripícoles", "Coníferes excepte pins",
         "Arbres de ribera"
-      ) ~ 'species_grouping',
+      ) ~ 'species_group',
       str_detect(functional_group_name, 'Altres ') ~ 'species_group',
       TRUE ~ functional_group_level
     ),
