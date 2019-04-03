@@ -197,13 +197,13 @@ temp_allometries_catalonia %>%
     # for that, some assumtions are made:
     # 1. length of fg name = 1, then genus (there is no families I'm aware of)
     # 2. Especial groups: Conifers wo pines, Riparian species, other ripioles species...
-    fg_name_length = length(str_split(functional_group_name, ' ')),
+    fg_name_length = str_count(functional_group_name, ' '),
     functional_group_level = case_when(
-      fg_name_length == 1 ~ 'genus',
+      fg_name_length == 0 ~ 'genus',
+      fg_name_length > 4 ~ 'species_group',
       functional_group_name == 'Abies sp' ~ 'genus',
       functional_group_name %in% c(
-        "Altres espècies ripícoles", "Coníferes excepte pins",
-        "Arbres de ribera"
+        "Coníferes excepte pins", "Arbres de ribera"
       ) ~ 'species_group',
       str_detect(functional_group_name, 'Altres ') ~ 'species_group',
       TRUE ~ functional_group_level
