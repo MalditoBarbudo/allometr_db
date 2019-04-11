@@ -210,10 +210,14 @@ temp_allometries_catalonia %>%
     ),
     # adding the allometry level (forest, tree, organ...)
     allometry_level = if_else(independent_var_1 == 'DR', 'organ', 'tree'),
-    allometry_name = if_else(allometry_level == 'tree', 'tree', 'branch')
+    allometry_name = if_else(allometry_level == 'tree', 'tree', 'branch'),
+    # creating the allometry_id variable
+    allometry_id = glue::glue("{dependent_var}_{row_number(dependent_var)}")
   ) %>%
   # selecting/reordering the variables
   select(
+    # id
+    allometry_id,
     # levels
     allometry_level, spatial_level, functional_group_level,
     # names

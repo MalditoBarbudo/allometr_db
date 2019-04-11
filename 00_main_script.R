@@ -21,7 +21,8 @@ oracle_db <- dbPool(
   # password = rstudioapi::askForPassword('Password for ifn'),
   user = 'guest',
   password = 'guest',
-  dbname = 'oracle_ifn'
+  dbname = 'oracle_ifn',
+  host = 'localhost'
 )
 
 # access4_db <- dbPool(
@@ -36,7 +37,8 @@ allometr_db <- dbPool(
   RPostgreSQL::PostgreSQL(),
   user = 'ifn',
   password = rstudioapi::askForPassword('Password for ifn'),
-  dbname = 'allometr_db'
+  dbname = 'allometr_db',
+  host = 'localhost'
 )
 
 ## scripts sources ####
