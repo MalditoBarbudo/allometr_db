@@ -29,7 +29,7 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'BRH' ~ 'Branches and leaves Biomass (BLB)',
       var_id == 'BH' ~ 'Leaves Biomass (LB)',
       var_id == 'Ht' ~ 'Total Height (Ht)',
-      var_id == 'DC' ~ 'Crown diameter (DC)',
+      var_id == 'DC' ~ 'Crown diameter (CD)',
       var_id == 'GC' ~ 'Bark Thickness (BT)',
       var_id == 'VCC' ~ 'Over Bark Volume (OBV)',
       var_id == 'IAVC' ~ 'Annual Increment of Over Bark Volume (AIOBV)',
