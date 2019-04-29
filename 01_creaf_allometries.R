@@ -211,6 +211,12 @@ temp_allometries_catalonia %>%
     # adding the allometry level (forest, tree, organ...)
     allometry_level = if_else(independent_var_1 == 'DR', 'organ', 'tree'),
     allometry_level_name = if_else(allometry_level == 'tree', 'tree', 'branch'),
+    # changing Dn* to DnSC in all ocurrences
+    dependent_var = stringr::str_replace(dependent_var, 'Dn\\*', 'DnSC'),
+    independent_var_1 = stringr::str_replace(independent_var_1, 'Dn\\*', 'DnSC'),
+    independent_var_2 = stringr::str_replace(independent_var_2, 'Dn\\*', 'DnSC'),
+    independent_var_3 = stringr::str_replace(independent_var_3, 'Dn\\*', 'DnSC'),
+    equation = stringr::str_replace(equation, 'Dn\\*', 'DnSC'),
     # creating the allometry_id variable
     allometry_id = glue::glue("{dependent_var}_{row_number(dependent_var)}")
   ) %>%

@@ -21,7 +21,7 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'VM' ~ glue::glue("Volum de fusta ({var_id})"),
       var_id == 'DR' ~ glue::glue("Diàmetre de la branca ({var_id})"),
       var_id == 'Dn' ~ glue::glue("Diàmetre normal ({var_id})"),
-      var_id == 'Dn*' ~ glue::glue("Diàmetre normal sense escorça ({var_id})"),
+      var_id == 'DnSC' ~ glue::glue("Diàmetre normal sense escorça ({var_id})"),
       var_id == 'P_BST' ~ glue::glue("Percentatge de biomassa Subterrània Total ({var_id})"),
       var_id == 'BST' ~ glue::glue("Biomassa Subterrània Total ({var_id})")
     ),
@@ -43,7 +43,7 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'VM' ~ 'Wood Volume (WV)',
       var_id == 'DR' ~ 'Branch Diameter (BD)',
       var_id == 'Dn' ~ 'Diameter at Breast Height (DBH)',
-      var_id == 'Dn*' ~ 'Diameter Inside Bark (DIB)',
+      var_id == 'DnSC' ~ 'Diameter Inside Bark (DIB)',
       var_id == 'P_BST' ~ "Total Subterranean Biomass percentage (TSBp)",
       var_id == 'BST' ~ "Total Subterranean Biomass (TSB)"
     ),
@@ -65,7 +65,7 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'VM' ~ glue::glue("Volumen de madera ({var_id})"),
       var_id == 'DR' ~ glue::glue("Diámetro de rama ({var_id})"),
       var_id == 'Dn' ~ glue::glue("Diámetro normal ({var_id})"),
-      var_id == 'Dn*' ~ glue::glue("Diámetro sin corteza ({var_id})"),
+      var_id == 'DnSC' ~ glue::glue("Diámetro sin corteza ({var_id})"),
       var_id == 'P_BST' ~ glue::glue("Porcentaje de biomasa subterránea total ({var_id})"),
       var_id == 'BST' ~ glue::glue("Biomasa subterránea total ({var_id})")
     ),
@@ -87,7 +87,7 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'VM' ~ 'dm3',
       var_id == 'DR' ~ 'mm',
       var_id == 'Dn' ~ 'cm',
-      var_id == 'Dn*' ~ 'cm',
+      var_id == 'DnSC' ~ 'cm',
       var_id == 'P_BST' ~ '%',
       var_id == 'BST' ~ 'kg'
     ),
