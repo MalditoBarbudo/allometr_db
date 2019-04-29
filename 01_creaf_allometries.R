@@ -5,8 +5,8 @@
 # variable renaming
 tbl(oracle_db, 'equacio') %>%
   rename(
-    spatial_name = ambit,
-    functional_group_name = idespecie,
+    spatial_level_name = ambit,
+    functional_group_level_name = idespecie,
     cubication_shape = formacubicacio,
     variables = variables,
     source = origen,
@@ -22,20 +22,20 @@ tbl(oracle_db, 'equacio') %>%
   collect() %>%
   mutate(
     spatial_level = case_when(
-      spatial_name == 'Catalunya' ~ 'aut_community',
-      spatial_name %in% c('Barcelona', 'Girona', 'Tarragona', 'Lleida') ~ 'province',
+      spatial_level_name == 'Catalunya' ~ 'aut_community',
+      spatial_level_name %in% c('Barcelona', 'Girona', 'Tarragona', 'Lleida') ~ 'province',
       TRUE ~ 'county'
     ),
     functional_group_level = 'species'
     ## TODO revisar el grupo funcional, no todas son especies
     # functional_group_level = case_when(
-    #   length(str_split(functional_group_name, ' ') > 2) ~ 'species',
+    #   length(str_split(functional_group_level_name, ' ') > 2) ~ 'species',
     #   TRUE ~ 'genus'
     # )
   ) %>%
   select(
-    spatial_level, spatial_name,
-    functional_group_level, functional_group_name,
+    spatial_level, spatial_level_name,
+    functional_group_level, functional_group_level_name,
     everything()
   ) %>%
   separate(variables, c('var1', 'var2', 'var3'), sep = ' - ') %>%
@@ -87,7 +87,7 @@ tbl(oracle_db, 'equacio') %>%
   ) %>%
   # pull(equation)
   select(
-    spatial_level, spatial_name, functional_group_level, functional_group_name,
+    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
     dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
     everything(), -var1, -var2, -var3, -contains('_description_')
   ) -> temp_allometries_catalonia
@@ -95,8 +95,8 @@ tbl(oracle_db, 'equacio') %>%
 ## temporal creaf spain level allometries ####
 tbl(oracle_db, 'equacio_espanya') %>%
   rename(
-    spatial_name = ambit,
-    functional_group_name = idespecie,
+    spatial_level_name = ambit,
+    functional_group_level_name = idespecie,
     cubication_shape = formacubicacio,
     variables = variables,
     source = origen,
@@ -112,27 +112,27 @@ tbl(oracle_db, 'equacio_espanya') %>%
   ) %>%
   collect() %>%
   left_join(
-    tbl(oracle_db, 'tesaureprovincia') %>% select(spatial_name = idprovincia, nom) %>% collect(),
-    by = 'spatial_name'
+    tbl(oracle_db, 'tesaureprovincia') %>% select(spatial_level_name = idprovincia, nom) %>% collect(),
+    by = 'spatial_level_name'
   ) %>%
   left_join(
-    tbl(oracle_db, 'tesaureespecie_espanya') %>% select(functional_group_name = idespecie, especie) %>% collect(),
-    by = 'functional_group_name'
+    tbl(oracle_db, 'tesaureespecie_espanya') %>% select(functional_group_level_name = idespecie, especie) %>% collect(),
+    by = 'functional_group_level_name'
   ) %>%
   mutate(
-    spatial_name = case_when(
-      spatial_name == 'Catalunya' ~ 'Catalunya',
-      spatial_name == 'Espanya' ~ 'España',
+    spatial_level_name = case_when(
+      spatial_level_name == 'Catalunya' ~ 'Catalunya',
+      spatial_level_name == 'Espanya' ~ 'España',
       TRUE ~ nom
     ),
     spatial_level = case_when(
-      spatial_name == 'España' ~ 'country',
-      spatial_name %in% c(
+      spatial_level_name == 'España' ~ 'country',
+      spatial_level_name %in% c(
         'Asturias', 'Cantabria', 'Catalunya', 'La Rioja', 'Madrid', 'Navarra', 'Murcia'
       ) ~ 'aut_community',
       TRUE ~ 'province'
     ),
-    functional_group_name = especie,
+    functional_group_level_name = especie,
     functional_group_level = 'species'
   ) %>%
   select(-nom, -especie) %>%
@@ -182,7 +182,7 @@ tbl(oracle_db, 'equacio_espanya') %>%
   ) %>%
   # pull(equation)
   select(
-    spatial_level, spatial_name, functional_group_level, functional_group_name,
+    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
     dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
     everything(), -var1, -var2, -var3, -contains('_description_'), -concentraciocarboni,
     -util
@@ -197,20 +197,20 @@ temp_allometries_catalonia %>%
     # for that, some assumtions are made:
     # 1. length of fg name = 1, then genus (there is no families I'm aware of)
     # 2. Especial groups: Conifers wo pines, Riparian species, other ripioles species...
-    fg_name_length = str_count(functional_group_name, ' '),
+    fg_name_length = str_count(functional_group_level_name, ' '),
     functional_group_level = case_when(
       fg_name_length == 0 ~ 'genus',
       fg_name_length > 4 ~ 'species_group',
-      functional_group_name == 'Abies sp' ~ 'genus',
-      functional_group_name %in% c(
+      functional_group_level_name == 'Abies sp' ~ 'genus',
+      functional_group_level_name %in% c(
         "Coníferes excepte pins", "Arbres de ribera"
       ) ~ 'species_group',
-      str_detect(functional_group_name, 'Altres ') ~ 'species_group',
+      str_detect(functional_group_level_name, 'Altres ') ~ 'species_group',
       TRUE ~ functional_group_level
     ),
     # adding the allometry level (forest, tree, organ...)
     allometry_level = if_else(independent_var_1 == 'DR', 'organ', 'tree'),
-    allometry_name = if_else(allometry_level == 'tree', 'tree', 'branch'),
+    allometry_level_name = if_else(allometry_level == 'tree', 'tree', 'branch'),
     # creating the allometry_id variable
     allometry_id = glue::glue("{dependent_var}_{row_number(dependent_var)}")
   ) %>%
@@ -218,10 +218,10 @@ temp_allometries_catalonia %>%
   select(
     # id
     allometry_id,
-    # levels
-    allometry_level, spatial_level, functional_group_level,
-    # names
-    allometry_name, spatial_name, functional_group_name,
+    # levels and names
+    allometry_level, allometry_level_name,
+    spatial_level, spatial_level_name,
+    functional_group_level, functional_group_level_name,
     # vars
     dependent_var, independent_var_1, independent_var_2, independent_var_3,
     # equation and params
