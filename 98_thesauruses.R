@@ -263,6 +263,19 @@ tibble::tribble(
   'sidebar_download_h4', 'Descarga la tabla de alometrías', 'Download the allometry table', 'Descarga la tablade alometrías',
   'table_tab_title', 'Taula', 'Table', 'Table',
   'calculate_tab_title', 'Calcula', 'Calculate', 'Calcula',
-  'calculate_panel_heading', 'Selecciona los datos para convertir', 'Select the data to convert', 'Selecciona los datos para convertir'
+  'calculate_panel_heading', 'Selecciona los datos para convertir', 'Select the data to convert', 'Selecciona los datos para convertir',
+  'user_data_text', 'Selecciona un archiva para cargar los datos a convertir. Los formatos acceptados son csv y xlsx. El archivo debe contener un cabecero con los nombres de las columnas',
+                    'Please, select a file to load with the data to be converted. Accepted formats are csv and xlsx. Both of them must have a header with columns names.',
+                    'Selecciona un archiva para cargar los datos a convertir. Los formatos acceptados son csv y xlsx. El archivo debe contener un cabecero con los nombres de las columnas',
+  'user_data_button_label', 'Inspecciona...', 'Browse...', 'Inspecciona...',
+  'user_data_button_placeholder', 'Ningún archivo seleccionado...', 'No file selected...', 'Ningún archivo seleccionado...',
+  'allometry_selector_text', 'Selecciona las alometrias a usar. En caso de duda comprueba la ',
+                             'Select the allometries to use. If in doubt check the ',
+                             'Selecciona las alometrias a usar. En caso de duda comprueba la ',
+  'allometry_selector_actionlink', 'tabla de alometrias', 'allometry table', 'tabla de aloemtrías',
+  'var_declaration_text', 'Selecciona las varibles de los datos cargados que corresponden a las variables independientes en la ecuación:',
+                          'Select the variables from the uploaded data corresponding to the independent variables from the equation:',
+                          'Selecciona las varibles de los datos cargados que corresponden a las variables independientes en la ecuación:',
+  'download_buttons_h4', 'Descarga las allometrias calculadas', 'Download calculated allometries', 'Descarga las alometrías, calculadas'
   ## TODO continue translations thesaurus
 )
