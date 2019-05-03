@@ -109,6 +109,97 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
     )
   ) -> thesaurus_variables_creaf
 
+## thesaurus allometry levels ####
+temp_allometries_creaf %>%
+  select(allometry_level) %>%
+  distinct() %>%
+  mutate(
+    translation_cat = case_when(
+      allometry_level == 'organ' ~ "Nivell d'òrgan",
+      allometry_level == 'tree' ~ "Nivell de planta"
+    ),
+    translation_eng = case_when(
+      allometry_level == 'organ' ~ 'Organ level',
+      allometry_level == 'tree' ~ 'Plant level'
+    ),
+    translation_spa = case_when(
+      allometry_level == 'organ' ~ 'Nivel de órgano',
+      allometry_level == 'tree' ~ 'Nivel de planta'
+    )
+  ) -> thesaurus_allo_level_creaf
+
+## thesaurus spatial levels ####
+temp_allometries_creaf %>%
+  select(spatial_level) %>%
+  distinct() %>%
+  mutate(
+    translation_cat = case_when(
+      spatial_level == 'county' ~ "Comarca",
+      spatial_level == 'province' ~ "Provincia",
+      spatial_level == 'aut_community' ~ "Comunitat autònoma",
+      spatial_level == 'country' ~ "País"
+    ),
+    translation_eng = case_when(
+      spatial_level == 'county' ~ "County",
+      spatial_level == 'province' ~ "Province",
+      spatial_level == 'aut_community' ~ "Autonomous community",
+      spatial_level == 'country' ~ "Country"
+    ),
+    translation_spa = case_when(
+      spatial_level == 'county' ~ "Comarca",
+      spatial_level == 'province' ~ "Provincia",
+      spatial_level == 'aut_community' ~ "Comunidad autónoma",
+      spatial_level == 'country' ~ "País"
+    )
+  ) -> thesaurus_spatial_level_creaf
+
+## thesaurus functional groups ####
+temp_allometries_creaf %>%
+  select(functional_group_level) %>%
+  distinct() %>%
+  mutate(
+    translation_cat = case_when(
+      functional_group_level == 'species' ~ "Espècie",
+      functional_group_level == 'species_group' ~ "Grup d'espècies",
+      functional_group_level == 'genus' ~ "Gènere"
+    ),
+    translation_eng = case_when(
+      functional_group_level == 'species' ~ "Species",
+      functional_group_level == 'species_group' ~ "Species group",
+      functional_group_level == 'genus' ~ "Genus"
+    ),
+    translation_spa = case_when(
+      functional_group_level == 'species' ~ "Especie",
+      functional_group_level == 'species_group' ~ "Grupo de expecies",
+      functional_group_level == 'genus' ~ "Génere"
+    )
+  ) -> thesaurus_functional_group_level_creaf
+
+## thesaurus special parameter ####
+temp_allometries_creaf %>%
+  select(translation_cat = special_param) %>%
+  distinct() %>%
+  mutate(
+    special_param_id = 1:5,
+    translation_eng = case_when(
+      special_param_id == 1 ~ "None",
+      special_param_id == 2 ~ "No peeled (first cork present)",
+      special_param_id == 3 ~ "Peeled before, not now",
+      special_param_id == 4 ~ "Peeled trunk and branches",
+      special_param_id == 5 ~ "Peeled trunk only"
+    ),
+    translation_spa = case_when(
+      special_param_id == 1 ~ "Ninguno",
+      special_param_id == 2 ~ "Bornizo (sin pelar)",
+      special_param_id == 3 ~ "Pelado antes, no ahora",
+      special_param_id == 4 ~ "Pelado en tronco y ramas",
+      special_param_id == 5 ~ "Pelado en tronco solo"
+    )
+  ) %>%
+  select(
+    special_param_id, translation_cat, translation_eng, translation_spa
+  ) -> thesaurus_special_param_creaf
+
 ## thesaurus cubication shapes ####
 tbl(oracle_db, 'tesaureformacubicacio') %>%
   select(
