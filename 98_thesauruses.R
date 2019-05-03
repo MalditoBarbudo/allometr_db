@@ -243,3 +243,26 @@ temp_allometries_creaf %>%
       source_id == 'INIA' ~ 'Institut Nacional de Recerca Agraria'
     )
   ) -> theasurus_sources
+
+## app translations ####
+tibble::tribble(
+  ~text_id, ~translation_cat, ~translation_eng, ~translation_spa,
+  
+  "explore_tab_title", 'Explora', 'Explore', 'Explora',
+  "sidebar_filter_h4", 'Filtra las alometrías', 'Filter the alllometries', 'Filtra las alometrias',
+  "dependent_var", 'Variable dependiente', 'Dependent variable', 'Variable dependiente',
+  "independent_var_1", 'Variable independiente 1', 'Independent variable 1', 'Variable independiente 1',
+  "independent_var_2", 'Variable independiente 2', 'Independent variable 2', 'Variable independiente 2',
+  "allometry_level", 'Nivel de alometría', 'Allometry level', 'Nivel de alometría',
+  'spatial_level', 'Nivel espacial', 'Spatial level', 'Nivel espacial',
+  'spatial_level_name', 'Valor nivel espacial', 'Spatial level value', 'Valor nivel espacial',
+  'functional_group_level', 'Nivel de grupo funcional', 'Functional group level', 'Nivel de grupo funcional',
+  'functional_group_level_name', 'Valor de grupo funcional', 'Funcional group value', 'Valor de grupo funcional',
+  'cubication_shape', 'Forma de cubicación', 'Cubication shape', 'Forma de cubicación',
+  'special_param', 'Parámetro especial (sólo para Q. suber)', 'Special parameter (only for Q. suber)', 'Parámetro especial (sólo para Q. suber)',
+  'sidebar_download_h4', 'Descarga la tabla de alometrías', 'Download the allometry table', 'Descarga la tablade alometrías',
+  'table_tab_title', 'Taula', 'Table', 'Table',
+  'calculate_tab_title', 'Calcula', 'Calculate', 'Calcula',
+  'calculate_panel_heading', 'Selecciona los datos para convertir', 'Select the data to convert', 'Selecciona los datos para convertir'
+  ## TODO continue translations thesaurus
+)
