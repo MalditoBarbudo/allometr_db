@@ -242,27 +242,40 @@ temp_allometries_creaf %>%
       source_id == 'IEFC' ~ 'Inventari Ecológico y Forestal de Catalunya',
       source_id == 'INIA' ~ 'Institut Nacional de Recerca Agraria'
     )
-  ) -> theasurus_sources
+  ) -> thesaurus_sources
 
 ## app translations ####
 tibble::tribble(
   ~text_id, ~translation_cat, ~translation_eng, ~translation_spa,
   
   "explore_tab_title", 'Explora', 'Explore', 'Explora',
-  "sidebar_filter_h4", 'Filtra las alometrías', 'Filter the alllometries', 'Filtra las alometrias',
-  "dependent_var", 'Variable dependiente', 'Dependent variable', 'Variable dependiente',
-  "independent_var_1", 'Variable independiente 1', 'Independent variable 1', 'Variable independiente 1',
-  "independent_var_2", 'Variable independiente 2', 'Independent variable 2', 'Variable independiente 2',
-  "allometry_level", 'Nivel de alometría', 'Allometry level', 'Nivel de alometría',
-  'spatial_level', 'Nivel espacial', 'Spatial level', 'Nivel espacial',
-  'spatial_level_name', 'Valor nivel espacial', 'Spatial level value', 'Valor nivel espacial',
-  'functional_group_level', 'Nivel de grupo funcional', 'Functional group level', 'Nivel de grupo funcional',
-  'functional_group_level_name', 'Valor de grupo funcional', 'Funcional group value', 'Valor de grupo funcional',
-  'cubication_shape', 'Forma de cubicación', 'Cubication shape', 'Forma de cubicación',
-  'special_param', 'Parámetro especial (sólo para Q. suber)', 'Special parameter (only for Q. suber)', 'Parámetro especial (sólo para Q. suber)',
-  'sidebar_download_h4', 'Descarga la tabla de alometrías', 'Download the allometry table', 'Descarga la tablade alometrías',
+  "sidebar_filter_h4", 'Filtra les al·lometries', 'Filter the alllometries', 'Filtra las alometrias',
+  "dependent_var", 'Variable dependent', 'Dependent variable', 'Variable dependiente',
+  "independent_var_1", 'Variable independent 1', 'Independent variable 1', 'Variable independiente 1',
+  "independent_var_2", 'Variable independent 2', 'Independent variable 2', 'Variable independiente 2',
+  "allometry_level", "Nivell d'al·lometria", 'Allometry level', 'Nivel de alometría',
+  'spatial_level', 'Nivell espacial', 'Spatial level', 'Nivel espacial',
+  'spatial_level_name', 'Valor nivell espacial', 'Spatial level value', 'Valor nivel espacial',
+  'functional_group_level', 'Nivell de grup funcional', 'Functional group level', 'Nivel de grupo funcional',
+  'functional_group_level_name', 'Valor de grup funcional', 'Funcional group value', 'Valor de grupo funcional',
+  'cubication_shape', 'Forma de cubicació', 'Cubication shape', 'Forma de cubicación',
+  'special_param', 'Paràmetre especial (nemés per Q. suber)', 'Special parameter (only for Q. suber)', 'Parámetro especial (sólo para Q. suber)',
+  'sidebar_download_h4', 'Descarrega la taula de al·lometries', 'Download the allometry table', 'Descarga la tablade alometrías',
   'table_tab_title', 'Taula', 'Table', 'Table',
   'calculate_tab_title', 'Calcula', 'Calculate', 'Calcula',
-  'calculate_panel_heading', 'Selecciona los datos para convertir', 'Select the data to convert', 'Selecciona los datos para convertir'
+  'calculate_panel_heading', 'Selecciona les dades per convertir', 'Select the data to convert', 'Selecciona los datos para convertir',
+  'calculate_panel_upload_p', 'Selecciona un arxiu amb les dades per convertir. Els formats acceptats són csv i xlsx, i la primera fila ha de ser un capçal amb els noms de les columnes.',
+                              'Please, select a file to load with the data to be converted. Accepted formats are csv and xlsx. Both of them must have a header wwith column names.',
+                              'Selecciona un archivo con los datos para convertir. Los formatos aceptados son csv y xlsx, y la primera fila ha de ser un cabecero con los nombres de las columnas.',
+  'calculate_panel_allosel_p', 'Selecciona les al·lometries a calcular. En cas de dubte consulta la ',
+                               'Select the allometries to use. If in doubt check the ',
+                               'Selecciona las alometrías a calcular. En caso de duda consulta la ',
+  'calculate_panel_allotable_link', 'taula de al·lometries', 'allometry table', 'tabla de alometrías',
+  'calculate_panel_vardec_p', "Selecciona les variables de les dades carregades que es corresponen amb les variables independents en l'equació lomètrica:",
+                              'Select the variables from the uploaded data corresponding to the independent variables from the equation:',
+                              'Selecciona las variables de los datos cargados que se corresponden con las variables independientes en la ecuación alométrica:',
+  'calculate_panel_download_h4', 'Descarrega las al·lometries calculades', 'Download the calculated allometries', 'Descarga las alometrías calculadas'
   ## TODO continue translations thesaurus
-)
+) -> app_translations
+
+
