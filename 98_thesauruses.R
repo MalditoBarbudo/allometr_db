@@ -26,26 +26,26 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'BST' ~ glue::glue("Biomassa Subterrània Total ({var_id})")
     ),
     translation_eng = case_when(
-      var_id == 'BRH' ~ 'Branches and leaves Biomass ({var_id})',
-      var_id == 'BH' ~ 'Leaves Biomass ({var_id})',
-      var_id == 'Ht' ~ 'Total Height ({var_id})',
-      var_id == 'DC' ~ 'Crown diameter ({var_id})',
-      var_id == 'GC' ~ 'Bark Thickness ({var_id})',
-      var_id == 'VOB' ~ 'Over Bark Volume ({var_id})',
-      var_id == 'IAVC' ~ 'Annual Increment of Over Bark Volume ({var_id})',
-      var_id == 'VLE' ~ 'Fuel Wood Volume ({var_id})',
-      var_id == 'VUB' ~ 'Under Bark Volume ({var_id})',
-      var_id == 'BR' ~ 'Branches Biomass ({var_id})',
-      var_id == 'BC' ~ 'Bark biomass ({var_id})',
-      var_id == 'VC' ~ 'Bark Volume ({var_id})',
-      var_id == 'BAT' ~ 'Total Aerial Biomas ({var_id})',
-      var_id == 'BM' ~ 'Wood Biomass ({var_id})',
-      var_id == 'VM' ~ 'Wood Volume ({var_id})',
-      var_id == 'DR' ~ 'Branch Diameter ({var_id})',
-      var_id == 'DBH' ~ 'Diameter at Breast Height ({var_id})',
-      var_id == 'DBH_SC' ~ 'Diameter Inside Bark ({var_id})',
-      var_id == 'P_BST' ~ "Total Subterranean Biomass percentage ({var_id})",
-      var_id == 'BST' ~ "Total Subterranean Biomass ({var_id})"
+      var_id == 'BRH' ~ glue::glue('Branches and leaves Biomass ({var_id})'),
+      var_id == 'BH' ~ glue::glue('Leaves Biomass ({var_id})'),
+      var_id == 'Ht' ~ glue::glue('Total Height ({var_id})'),
+      var_id == 'DC' ~ glue::glue('Crown Diameter ({var_id})'),
+      var_id == 'GC' ~ glue::glue('Bark Thickness ({var_id})'),
+      var_id == 'VOB' ~ glue::glue('Over Bark Volume ({var_id})'),
+      var_id == 'IAVC' ~ glue::glue('Annual Increment of Over Bark Volume ({var_id})'),
+      var_id == 'VLE' ~ glue::glue('Fuel Wood Volume ({var_id})'),
+      var_id == 'VUB' ~ glue::glue('Under Bark Volume ({var_id})'),
+      var_id == 'BR' ~ glue::glue('Branches Biomass ({var_id})'),
+      var_id == 'BC' ~ glue::glue('Bark Biomass ({var_id})'),
+      var_id == 'VC' ~ glue::glue('Bark Volume ({var_id})'),
+      var_id == 'BAT' ~ glue::glue('Total Aerial Biomass ({var_id})'),
+      var_id == 'BM' ~ glue::glue('Wood Biomass ({var_id})'),
+      var_id == 'VM' ~ glue::glue('Wood Volume ({var_id})'),
+      var_id == 'DR' ~ glue::glue('Branch Diameter ({var_id})'),
+      var_id == 'DBH' ~ glue::glue('Diameter at Breast Height ({var_id})'),
+      var_id == 'DBH_SC' ~ glue::glue('Diameter Inside Bark ({var_id})'),
+      var_id == 'P_BST' ~ glue::glue("Total Subterranean Biomass percentage ({var_id})"),
+      var_id == 'BST' ~ glue::glue("Total Subterranean Biomass ({var_id})")
     ),
     translation_spa = case_when(
       var_id == 'BRH' ~ glue::glue("Biomasa de ramas con hojas ({var_id})"),
@@ -279,8 +279,15 @@ tibble::tribble(
   'nothing_selected', 'Res seleccionat', 'Nothing selected', 'Nada seleccionado',
   'need_user_data', "No hi ha dades carregats", "No user data provided", 'No hay datos cargados',
   'need_allosel', 'Sense al·lometries seleccionades', 'No allometries selected', 'Sin alometrías seleccionadas',
-  'need_vardec', "No hi ha declaració de variables", 'No variables declaration', 'No hay declaración de variables'
+  'need_vardec', "No hi ha declaració de variables", 'No variables declaration', 'No hay declaración de variables',
+  'calculate_panel_vardec_inputs', 'Variable a fer servir com {x} [{units}]', 'Variable acting as {x} [{units}]', 'Variable a usar como {x} [{units}]'
   ## TODO continue translations thesaurus
-) -> app_translations
+) %>%
+  full_join(thesaurus_variables_creaf %>% select(text_id = var_id, everything())) %>%
+  full_join(thesaurus_spatial_level_creaf %>% select(text_id = spatial_level, everything())) %>%
+  full_join(thesaurus_allo_level_creaf %>% select(text_id = allometry_level, everything())) %>%
+  full_join(thesaurus_functional_group_level_creaf %>% select(text_id = functional_group_level, everything())) %>%
+  # full_join(thesaurus_special_param_creaf %>% select(text_id = special_param_id, everything())) %>% 
+  {.} -> app_translations
 
 
