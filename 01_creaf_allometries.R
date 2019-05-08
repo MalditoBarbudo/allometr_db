@@ -211,12 +211,30 @@ temp_allometries_catalonia %>%
     # adding the allometry level (forest, tree, organ...)
     allometry_level = if_else(independent_var_1 == 'DR', 'organ', 'tree'),
     allometry_level_name = if_else(allometry_level == 'tree', 'tree', 'branch'),
-    # changing Dn* to DnSC in all ocurrences
-    dependent_var = stringr::str_replace(dependent_var, 'Dn\\*', 'DnSC'),
-    independent_var_1 = stringr::str_replace(independent_var_1, 'Dn\\*', 'DnSC'),
-    independent_var_2 = stringr::str_replace(independent_var_2, 'Dn\\*', 'DnSC'),
-    independent_var_3 = stringr::str_replace(independent_var_3, 'Dn\\*', 'DnSC'),
-    equation = stringr::str_replace(equation, 'Dn\\*', 'DnSC'),
+    # changing Dn* to DBH_SC in all ocurrences
+    dependent_var = stringr::str_replace(dependent_var, 'Dn\\*', 'DBH_SC'),
+    independent_var_1 = stringr::str_replace(independent_var_1, 'Dn\\*', 'DBH_SC'),
+    independent_var_2 = stringr::str_replace(independent_var_2, 'Dn\\*', 'DBH_SC'),
+    independent_var_3 = stringr::str_replace(independent_var_3, 'Dn\\*', 'DBH_SC'),
+    equation = stringr::str_replace(equation, 'Dn\\*', 'DBH_SC'),
+    # changing Dn to DBH in all ocurrences
+    dependent_var = stringr::str_replace(dependent_var, 'Dn', 'DBH'),
+    independent_var_1 = stringr::str_replace(independent_var_1, 'Dn', 'DBH'),
+    independent_var_2 = stringr::str_replace(independent_var_2, 'Dn', 'DBH'),
+    independent_var_3 = stringr::str_replace(independent_var_3, 'Dn', 'DBH'),
+    equation = stringr::str_replace(equation, 'Dn', 'DBH'),
+    # changing VCC to VOB in all ocurrences
+    dependent_var = stringr::str_replace(dependent_var, 'VCC', 'VOB'),
+    independent_var_1 = stringr::str_replace(independent_var_1, 'VCC', 'VOB'),
+    independent_var_2 = stringr::str_replace(independent_var_2, 'VCC', 'VOB'),
+    independent_var_3 = stringr::str_replace(independent_var_3, 'VCC', 'VOB'),
+    equation = stringr::str_replace(equation, 'VCC', 'VOB'),
+    # changing VSC to VUB in all ocurrences
+    dependent_var = stringr::str_replace(dependent_var, 'VSC', 'VUB'),
+    independent_var_1 = stringr::str_replace(independent_var_1, 'VSC', 'VUB'),
+    independent_var_2 = stringr::str_replace(independent_var_2, 'VSC', 'VUB'),
+    independent_var_3 = stringr::str_replace(independent_var_3, 'VSC', 'VUB'),
+    equation = stringr::str_replace(equation, 'VSC', 'VUB'),
     # creating the allometry_id variable
     allometry_id = glue::glue("{dependent_var}_{row_number(dependent_var)}")
   ) %>%
