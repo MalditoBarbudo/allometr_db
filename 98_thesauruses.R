@@ -273,7 +273,7 @@ tibble::tribble(
   'cubication_shape', 'Forma de cubicació', 'Cubication shape', 'Forma de cubicación',
   'special_param', 'Paràmetre especial (nemés per Q. suber)', 'Special parameter (only for Q. suber)', 'Parámetro especial (sólo para Q. suber)',
   'sidebar_download_h4', 'Descarrega la taula de al·lometries', 'Download the allometry table', 'Descarga la tablade alometrías',
-  'table_tab_title', 'Taula', 'Table', 'Table',
+  'table_tab_title', 'Taula', 'Table', 'Tabla',
   'calculate_tab_title', 'Calcula', 'Calculate', 'Calcula','calculate_panel_heading', 'Selecciona les dades per convertir', 'Select the data to convert', 'Selecciona los datos para convertir',
   'calculate_panel_upload_p', 'Selecciona un arxiu amb les dades per convertir. Els formats acceptats són csv i xlsx, i la primera fila ha de ser un capçal amb els noms de les columnes.',
                               'Please, select a file to load with the data to be converted. Accepted formats are csv and xlsx. Both of them must have a header wwith column names.',
