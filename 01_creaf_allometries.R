@@ -188,9 +188,53 @@ tbl(oracle_db, 'equacio_espanya') %>%
     -util
   ) -> temp_allometries_spain
 
+## miquel allometries ####
+temp_allometries_miquel <- readxl::read_excel('Tree_Allometries_Miquel.xlsx', 2) %>%
+  dplyr::slice(1:34) %>%
+  dplyr::rename(
+    # spatial_level_name = ambit,
+    functional_group_level_name = Name,
+    # cubication_shape = formacubicacio,
+    # variables = variables,
+    source = Source,
+    # special_param = parametreespecial,
+    # equation = equacio,
+    param_a = a_fbt,
+    param_b = b_fbt,
+    param_c = c_fbt,
+    param_d = d_fbt,
+    n_obs = n,
+    r_sqr = r2
+  ) %>%
+  dplyr::mutate(
+    spatial_level = 'aut_community',
+    spatial_level_name = 'Catalunya',
+    functional_group_level = 'species',
+    dependent_var = 'BH',
+    independent_var_1 = 'DBH',
+    independent_var_2 = 'BAL',
+    independent_var_3 = NA_character_,
+    equation = 'BH = a·DBH^b·exp(c·BAL)·DBH^(d·BAL)',
+    cubication_shape = 'Any',
+    special_param = "No n'hi ha",
+    see = NA_real_,
+    n_obs = as.numeric(n_obs)
+    # miquel allometries calculate BH in kg, so we need to mutate param_a to
+    # change it to g
+    # param_a = param_a*1000
+  ) %>%
+  dplyr::select(
+    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
+    dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
+    cubication_shape, source, special_param, param_a, param_b, param_c, param_d,
+    n_obs, r_sqr, see
+  )
+
+## final table ####
 temp_allometries_catalonia %>%
   mutate(see = NA_integer_) %>%
   union(temp_allometries_spain) %>%
+  union(temp_allometries_miquel) %>%
   # fixing vars
   mutate(
     # fixing species
