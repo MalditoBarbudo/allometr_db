@@ -230,11 +230,117 @@ temp_allometries_miquel <- readxl::read_excel('Tree_Allometries_Miquel.xlsx', 2)
     n_obs, r_sqr, see
   )
 
+## MedFuels allometries ####
+temp_allometries_medfuels_bat <- readr::read_delim(
+  'Wtotal_Vtotal.txt', delim = '\t', locale = readr::locale(decimal_mark = ',')
+) %>%
+  dplyr::select(
+    ## TODO fix species names
+    functional_group_level_name = Name,
+    param_a = a1,
+    param_b = b1,
+    n_obs = n,
+    r_sqr = sp_r2
+  ) %>%
+  dplyr::mutate(
+    spatial_level = 'aut_community',
+    spatial_level_name = 'Catalunya',
+    functional_group_level = 'species',
+    dependent_var = 'BAT',
+    independent_var_1 = 'PHV',
+    independent_var_2 = NA_character_,
+    independent_var_3 = NA_character_,
+    equation = 'BAT = a · PHV^b',
+    cubication_shape = 'Any',
+    source = 'De Cáceres (submitted, AFSC-D-19-*****)',
+    special_param = "No n'hi ha",
+    param_c = NA_real_,
+    param_d = NA_real_,
+    see = NA_real_
+  ) %>%
+  dplyr::select(
+    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
+    dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
+    cubication_shape, source, special_param, param_a, param_b, param_c, param_d,
+    n_obs, r_sqr, see
+  )
+
+temp_allometries_medfuels_batf <- readr::read_delim(
+  'Wfine_Vtotal.txt', delim = '\t', locale = readr::locale(decimal_mark = ',')
+) %>%
+  dplyr::select(
+    ## TODO fix species names
+    functional_group_level_name = Name,
+    param_a = a1,
+    param_b = b1,
+    n_obs = n,
+    r_sqr = sp_r2
+  ) %>%
+  dplyr::mutate(
+    spatial_level = 'aut_community',
+    spatial_level_name = 'Catalunya',
+    functional_group_level = 'species',
+    dependent_var = 'BFAT',
+    independent_var_1 = 'PHV',
+    independent_var_2 = NA_character_,
+    independent_var_3 = NA_character_,
+    equation = 'BFAT = a · PHV^b',
+    cubication_shape = 'Any',
+    source = 'De Cáceres (submitted, AFSC-D-19-*****)',
+    special_param = "No n'hi ha",
+    param_c = NA_real_,
+    param_d = NA_real_,
+    see = NA_real_
+  ) %>%
+  dplyr::select(
+    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
+    dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
+    cubication_shape, source, special_param, param_a, param_b, param_c, param_d,
+    n_obs, r_sqr, see
+  )
+
+temp_allometries_medfuels_area <- readr::read_delim(
+  'Area_H.txt', delim = '\t', locale = readr::locale(decimal_mark = ',')
+) %>%
+  dplyr::select(
+    ## TODO fix species names
+    functional_group_level_name = Name,
+    param_a = a2,
+    param_b = b2,
+    n_obs = n,
+    r_sqr = sp_r2
+  ) %>%
+  dplyr::mutate(
+    spatial_level = 'aut_community',
+    spatial_level_name = 'Catalunya',
+    functional_group_level = 'species',
+    dependent_var = 'Area',
+    independent_var_1 = 'Ht',
+    independent_var_2 = NA_character_,
+    independent_var_3 = NA_character_,
+    equation = 'Area = a · Ht^b',
+    cubication_shape = 'Any',
+    source = 'De Cáceres (submitted, AFSC-D-19-*****)',
+    special_param = "No n'hi ha",
+    param_c = NA_real_,
+    param_d = NA_real_,
+    see = NA_real_
+  ) %>%
+  dplyr::select(
+    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
+    dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
+    cubication_shape, source, special_param, param_a, param_b, param_c, param_d,
+    n_obs, r_sqr, see
+  )
+
 ## final table ####
 temp_allometries_catalonia %>%
   mutate(see = NA_integer_) %>%
   union(temp_allometries_spain) %>%
   union(temp_allometries_miquel) %>%
+  union(temp_allometries_medfuels_bat) %>%
+  union(temp_allometries_medfuels_batf) %>%
+  union(temp_allometries_medfuels_area) %>%
   # fixing vars
   mutate(
     # fixing species

@@ -24,7 +24,10 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'DBH_SC' ~ glue::glue("Diàmetre normal sense escorça ({var_id})"),
       var_id == 'P_BST' ~ glue::glue("Percentatge de biomassa Subterrània Total ({var_id})"),
       var_id == 'BST' ~ glue::glue("Biomassa Subterrània Total ({var_id})"),
-      var_id == 'BAL' ~ glue::glue("Àrea Basal d’Arbres Grans ({var_id})")
+      var_id == 'BAL' ~ glue::glue("Àrea Basal d’Arbres Grans ({var_id})"),
+      var_id == 'PHV' ~ glue::glue("Fitovolum ({var_id})"),
+      var_id == 'BFAT' ~ glue::glue("Biomassa Fina Aèria Total ({var_id})"),
+      var_id == 'Area' ~ glue::glue("Àrea ({var_id})")
     ),
     translation_eng = case_when(
       var_id == 'BRH' ~ glue::glue('Branches and leaves Biomass ({var_id})'),
@@ -47,7 +50,10 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'DBH_SC' ~ glue::glue('Diameter Inside Bark ({var_id})'),
       var_id == 'P_BST' ~ glue::glue("Total Subterranean Biomass percentage ({var_id})"),
       var_id == 'BST' ~ glue::glue("Total Subterranean Biomass ({var_id})"),
-      var_id == 'BAL' ~ glue::glue("Basal Area of Larger Trees ({var_id})")
+      var_id == 'BAL' ~ glue::glue("Basal Area of Larger Trees ({var_id})"),
+      var_id == 'PHV' ~ glue::glue("Phytovolume ({var_id})"),
+      var_id == 'BFAT' ~ glue::glue("Total Fine Aerial Biomass ({var_id})"),
+      var_id == 'Area' ~ glue::glue("Area ({var_id})")
     ),
     translation_spa = case_when(
       var_id == 'BRH' ~ glue::glue("Biomasa de ramas con hojas ({var_id})"),
@@ -70,7 +76,10 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'DBH_SC' ~ glue::glue("Diámetro sin corteza ({var_id})"),
       var_id == 'P_BST' ~ glue::glue("Porcentaje de biomasa subterránea total ({var_id})"),
       var_id == 'BST' ~ glue::glue("Biomasa subterránea total ({var_id})"),
-      var_id == 'BAL' ~ glue::glue("Área Basal de Árboles Grandes ({var_id})")
+      var_id == 'BAL' ~ glue::glue("Área Basal de Árboles Grandes ({var_id})"),
+      var_id == 'PHV' ~ glue::glue("Fitovolúmen ({var_id})"),
+      var_id == 'BFAT' ~ glue::glue("Biomasa Aérea FIna Total ({var_id})"),
+      var_id == 'Area' ~ glue::glue("Área ({var_id})")
     ),
     var_units = case_when(
       var_id == 'BRH' ~ 'g',
@@ -93,7 +102,10 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'DBH_SC' ~ 'cm',
       var_id == 'P_BST' ~ '%',
       var_id == 'BST' ~ 'kg',
-      var_id == 'BAL' ~ 'm2/ha'
+      var_id == 'BAL' ~ 'm2/ha',
+      var_id == 'PHV' ~ '¿dm3?',
+      var_id == 'BFAT' ~ 'kg',
+      var_id == 'Area' ~ 'cm2/cm'
     ),
     var_abbr_cat = var_id,
     var_abbr_spa = var_id,
