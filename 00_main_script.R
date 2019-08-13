@@ -22,7 +22,8 @@ oracle_db <- dbPool(
   user = 'guest',
   password = 'guest',
   dbname = 'oracle_ifn',
-  host = '158.109.46.23'
+  host = '158.109.46.23',
+  port = 5433
 )
 
 # access4_db <- dbPool(
@@ -38,7 +39,8 @@ allometr_db <- dbPool(
   user = 'ifn',
   password = rstudioapi::askForPassword('Password for ifn'),
   dbname = 'allometr_db',
-  host = '158.109.46.23'
+  host = '158.109.46.23',
+  port = 5433
 )
 
 ## scripts sources ####
