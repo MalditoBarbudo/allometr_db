@@ -65,6 +65,7 @@ tbl(oracle_db, 'equacio') %>%
     independent_var_3, c('independent_var_3', 'iv3_description_cat'), sep = '='
   ) %>%
   mutate(
+    allometry_level_name = NA_character_,
     # removing trailing spaces
     independent_var_1 = str_trim(independent_var_1),
     iv1_description_cat = str_trim(iv1_description_cat),
@@ -87,7 +88,7 @@ tbl(oracle_db, 'equacio') %>%
   ) %>%
   # pull(equation)
   select(
-    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
+    allometry_level_name, spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
     dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
     everything(), -var1, -var2, -var3, -contains('_description_')
   ) -> temp_allometries_catalonia
@@ -167,6 +168,7 @@ tbl(oracle_db, 'equacio_espanya') %>%
     independent_var_3, c('independent_var_3', 'iv3_description_cat'), sep = '='
   ) %>%
   mutate(
+    allometry_level_name = NA_character_,
     # removing trailing spaces
     independent_var_1 = str_trim(independent_var_1),
     iv1_description_cat = str_trim(iv1_description_cat),
@@ -182,7 +184,7 @@ tbl(oracle_db, 'equacio_espanya') %>%
   ) %>%
   # pull(equation)
   select(
-    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
+    allometry_level_name, spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
     dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
     everything(), -var1, -var2, -var3, -contains('_description_'), -concentraciocarboni,
     -util
@@ -207,6 +209,7 @@ temp_allometries_miquel <- readxl::read_excel('Tree_Allometries_Miquel.xlsx', 2)
     r_sqr = r2
   ) %>%
   dplyr::mutate(
+    allometry_level_name = NA_character_,
     spatial_level = 'aut_community',
     spatial_level_name = 'Catalunya',
     functional_group_level = 'species',
@@ -224,7 +227,7 @@ temp_allometries_miquel <- readxl::read_excel('Tree_Allometries_Miquel.xlsx', 2)
     # param_a = param_a*1000
   ) %>%
   dplyr::select(
-    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
+    allometry_level_name, spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
     dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
     cubication_shape, source, special_param, param_a, param_b, param_c, param_d,
     n_obs, r_sqr, see
@@ -243,6 +246,7 @@ temp_allometries_medfuels_bat <- readr::read_delim(
     r_sqr = sp_r2
   ) %>%
   dplyr::mutate(
+    allometry_level_name = 'shrub',
     spatial_level = 'aut_community',
     spatial_level_name = 'Catalunya',
     functional_group_level = 'species',
@@ -259,7 +263,7 @@ temp_allometries_medfuels_bat <- readr::read_delim(
     see = NA_real_
   ) %>%
   dplyr::select(
-    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
+    allometry_level_name, spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
     dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
     cubication_shape, source, special_param, param_a, param_b, param_c, param_d,
     n_obs, r_sqr, see
@@ -277,6 +281,7 @@ temp_allometries_medfuels_batf <- readr::read_delim(
     r_sqr = sp_r2
   ) %>%
   dplyr::mutate(
+    allometry_level_name = 'shrub',
     spatial_level = 'aut_community',
     spatial_level_name = 'Catalunya',
     functional_group_level = 'species',
@@ -293,7 +298,7 @@ temp_allometries_medfuels_batf <- readr::read_delim(
     see = NA_real_
   ) %>%
   dplyr::select(
-    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
+    allometry_level_name, spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
     dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
     cubication_shape, source, special_param, param_a, param_b, param_c, param_d,
     n_obs, r_sqr, see
@@ -311,6 +316,7 @@ temp_allometries_medfuels_area <- readr::read_delim(
     r_sqr = sp_r2
   ) %>%
   dplyr::mutate(
+    allometry_level_name = 'shrub',
     spatial_level = 'aut_community',
     spatial_level_name = 'Catalunya',
     functional_group_level = 'species',
@@ -327,7 +333,7 @@ temp_allometries_medfuels_area <- readr::read_delim(
     see = NA_real_
   ) %>%
   dplyr::select(
-    spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
+    allometry_level_name, spatial_level, spatial_level_name, functional_group_level, functional_group_level_name,
     dependent_var, independent_var_1, independent_var_2, independent_var_3, equation,
     cubication_shape, source, special_param, param_a, param_b, param_c, param_d,
     n_obs, r_sqr, see
@@ -360,7 +366,11 @@ temp_allometries_catalonia %>%
     ),
     # adding the allometry level (forest, tree, organ...)
     allometry_level = if_else(independent_var_1 == 'DR', 'organ', 'tree'),
-    allometry_level_name = if_else(allometry_level == 'tree', 'tree', 'branch'),
+    # allometry_level_name = if_else(allometry_level == 'tree', 'tree', 'branch'),
+    allometry_level_name = dplyr::case_when(
+      is.na(allometry_level_name) ~ if_else(allometry_level == 'tree', 'tree', 'branch'),
+      TRUE ~ allometry_level_name
+    ),
     # changing Dn* to DBH_SC in all ocurrences
     dependent_var = stringr::str_replace_all(dependent_var, 'Dn\\*', 'DBH_SC'),
     independent_var_1 = stringr::str_replace_all(independent_var_1, 'Dn\\*', 'DBH_SC'),
