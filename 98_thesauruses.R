@@ -304,7 +304,7 @@ tibble::tribble(
   'independent_var_3_translation_cat', "Descripció de la variable independent 3", "Independent variable 3 description (cat)", "Descripcion de la variable independiente 3 (cat)",
   'independent_var_3_translation_spa', "Descripció de la variable independent 3 (spa)", "Independent variable 3 description (spa)", "Descripcion de la variable independiente 3",
   'independent_var_3_translation_eng', "Descripció de la variable independent 3 (eng)", "Independent variable 3 description", "Descripcion de la variable independiente 3 (eng)",
-  'sidebar_download_h4', 'Descarrega la taula de al·lometries', 'Download the allometry table', 'Descarga la tablade alometrías',
+  'sidebar_download_h4', 'Descarrega la taula de al·lometries', 'Download the allometry table', 'Descarga la tabla de alometrías',
   'table_tab_title', 'Taula', 'Table', 'Tabla',
   'calculate_tab_title', 'Calcula', 'Calculate', 'Calcula','calculate_panel_heading', 'Selecciona les dades per convertir', 'Select the data to convert', 'Selecciona los datos para convertir',
   'calculate_panel_upload_p', 'Selecciona un arxiu amb les dades per convertir. Els formats acceptats són csv i xlsx, i la primera fila ha de ser un capçal amb els noms de les columnes.',
