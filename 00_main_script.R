@@ -40,7 +40,7 @@ allometr_db <- dbPool(
   password = rstudioapi::askForPassword('Password for ifn'),
   dbname = 'allometr_db',
   host = '158.109.46.23',
-  port = 5433
+  port = 5432
 )
 
 ## scripts sources ####
