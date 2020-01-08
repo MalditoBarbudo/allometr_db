@@ -4,6 +4,18 @@
 ## temporal creaf allometries table ####
 # variable renaming
 tbl(oracle_db, 'equacio') %>%
+  # Dn in mm must be converted to cm in the equation
+  mutate(
+    equacio = case_when(
+      equacio == "VCC = a +b (Dn)².Ht" ~ "VCC = a +b ((Dn·10))²·Ht",
+      equacio == "BH = a ·Dn^b" ~ "BH = a ·(Dn·10)^b",
+      equacio == "BR = a ·Dn^b" ~ "BR = a ·(Dn·10)^b",
+      equacio == "DP = a ·Dn^b" ~ "DP = a ·(Dn·10)^b",
+      equacio == "IAVC = a + b.Dn + c.Dn² + d.Dn³" ~ "IAVC = a + b.(Dn·10) + c.(Dn·10)² + d.(Dn·10)³",
+      equacio == "VLE = a + b.Dn + c.Dn² + d.Dn³" ~ "VLE = a + b.(Dn·10) + c.(Dn·10)² + d.(Dn·10)³",
+      TRUE ~ equacio
+    )
+  ) %>% 
   rename(
     spatial_level_name = ambit,
     functional_group_level_name = idespecie,
