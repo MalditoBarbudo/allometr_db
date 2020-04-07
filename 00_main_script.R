@@ -23,7 +23,7 @@ oracle_db <- dbPool(
   password = 'guest',
   dbname = 'oracle_ifn',
   host = '158.109.46.23',
-  port = 5433
+  port = 5432
 )
 
 # access4_db <- dbPool(
