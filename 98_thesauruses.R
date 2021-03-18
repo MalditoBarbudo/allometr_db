@@ -4,8 +4,8 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
   select(var_id) %>% distinct() %>% filter(!is.na(var_id)) %>%
   mutate(
     var_units = case_when(
-      var_id == 'BRH' ~ 'g',
-      var_id == 'BH' ~ 'g',
+      var_id == 'BRH' ~ 'kg',
+      var_id == 'BH' ~ 'kg',
       var_id == 'Ht' ~ 'm',
       var_id == 'DC' ~ 'm',
       var_id == 'GC' ~ 'mm',
@@ -13,7 +13,7 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'IAVC' ~ 'dm3',
       var_id == 'VLE' ~ 'dm3',
       var_id == 'VUB' ~ 'dm3',
-      var_id == 'BR' ~ 'g',
+      var_id == 'BR' ~ 'kg',
       var_id == 'BC' ~ 'kg',
       var_id == 'VC' ~ 'dm3',
       var_id == 'BAT' ~ 'kg',
