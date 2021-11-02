@@ -6,7 +6,7 @@
 ## Libraries and data access ####
 library(tidyverse)
 library(dbplyr)
-library(RPostgreSQL)
+library(RPostgres)
 library(pool)
 library(magrittr)
 library(stringr)
@@ -16,18 +16,18 @@ library(glue)
 ## database connections ####
 # original db connections
 oracle_db <- dbPool(
-  RPostgreSQL::PostgreSQL(),
+  RPostgres::Postgres(),
   # user = 'ifn',
   # password = rstudioapi::askForPassword('Password for ifn'),
   user = 'guest',
   password = 'guest',
   dbname = 'oracle_ifn',
-  host = 'laboratoriforestal.creaf.uab.cat',
+  host = 'laboratoriforestal.creaf.cat',
   port = 5432
 )
 
 # access4_db <- dbPool(
-#   RPostgreSQL::PostgreSQL(),
+#   RPostgres::Postgres(),
 #   user = 'ifn',
 #   password = rstudioapi::askForPassword('Password for ifn'),
 #   dbname = 'ifn4_access'
@@ -35,11 +35,11 @@ oracle_db <- dbPool(
 
 # new db connection
 allometr_db <- dbPool(
-  RPostgreSQL::PostgreSQL(),
+  RPostgres::Postgres(),
   user = 'ifn',
   password = rstudioapi::askForPassword('Password for ifn'),
   dbname = 'allometr_db',
-  host = 'laboratoriforestal.creaf.uab.cat',
+  host = 'laboratoriforestal.creaf.cat',
   port = 5432
 )
 
