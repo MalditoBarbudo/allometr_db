@@ -348,7 +348,8 @@ tibble::tribble(
   'need_user_data', "No hi ha dades carregats", "No user data provided", 'No hay datos cargados',
   'need_allosel', 'Sense al·lometries seleccionades', 'No allometries selected', 'Sin alometrías seleccionadas',
   'need_vardec', "No hi ha declaració de variables", 'No variables declaration', 'No hay declaración de variables',
-  'calculate_panel_vardec_inputs', 'Variable a fer servir com {x} [{units}]', 'Variable acting as {x} [{units}]', 'Variable a usar como {x} [{units}]'
+  'calculate_panel_vardec_inputs', 'Variable a fer servir com {x} [{units}]', 'Variable acting as {x} [{units}]', 'Variable a usar como {x} [{units}]',
+  'reset_all', 'Restableix els filtres', 'Reset filters', 'Restablecer los filtros'
   ## TODO continue translations thesaurus
 ) %>%
   full_join(thesaurus_variables_creaf %>% select(text_id = var_id, everything())) %>%
