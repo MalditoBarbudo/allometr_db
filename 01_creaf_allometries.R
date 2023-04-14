@@ -426,3 +426,37 @@ temp_allometries_catalonia %>%
     # quality
     n_obs, r_sqr, see
   ) -> temp_allometries_creaf
+
+
+## Fixing species names
+offending_species <- c(
+  "Evonimus europaeus",
+  "Robinia pseudacacia",
+  "Salix elaeagnos",
+  "Eucalyptus vimitalis",
+  "Eucalyptus gomphocephallus",
+  "Crataegus lacinata"
+)
+
+correct_species <- c(
+  "Euonymus europaeus",
+  "Robinia pseudoacacia",
+  "Salix eleagnos",
+  "Eucalyptus viminalis",
+  "Eucalyptus gomphocephala",
+  "Crataegus laciniata"
+)
+
+temp_allometries_creaf <-
+  temp_allometries_creaf |>
+  dplyr::mutate(
+    functional_group_level_name = dplyr::case_match(
+      functional_group_level_name,
+      "Evonimus europaeus" ~ "Euonymus europaeus",
+      "Robinia pseudacacia" ~ "Robinia pseudoacacia",
+      "Salix elaeagnos" ~ "Salix eleagnos",
+      "Eucalyptus vimitalis" ~ "Eucalyptus viminalis",
+      "Eucalyptus gomphocephallus" ~ "Eucalyptus gomphocephala",
+      "Crataegus lacinata" ~ "Crataegus laciniata",
+      .default = functional_group_level_name) 
+  )
