@@ -25,7 +25,7 @@ temp_allometries_creaf %>% gather('variable', 'var_id', contains('_var')) %>%
       var_id == 'P_BST' ~ '%',
       var_id == 'BST' ~ 'kg',
       var_id == 'BAL' ~ 'm2/ha',
-      var_id == 'PHV' ~ 'cm3',
+      var_id == 'PHV' ~ 'm3',
       var_id == 'BFAT' ~ 'kg',
       var_id == 'Area' ~ 'cm2/cm'
     ),
